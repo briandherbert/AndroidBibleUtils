@@ -1,0 +1,24 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="NavButton" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/enableable_text_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/nav_btn_bg</item>
+        <item name="android:layout_margin">1dp</item>
+    </style>
+
+    <style name="NavTitle" parent="NavButton">
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="NavBack" parent="NavButton">
+        <item name="android:background">@drawable/nav_btn_back_bg</item>
+    </style>
+</resources>

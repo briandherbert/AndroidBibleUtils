@@ -1,0 +1,85 @@
+package com.example.brianherbert.biblenavwatch.data
+
+public enum class BOOK {
+    ACTS("Acts", "ACT"),
+    AMOS("Amos", "AMO"),
+    ONE_CHRONICLES("1 Chronicles", "1CH"),
+    TWO_CHRONICLES("2 Chronicles", "2CH"),
+    COLOSSIANS("Colossians", "COL"),
+    ONE_CORINTHIANS("1 Corinthians", "1CO"),
+    TWO_CORINTHIANS("2 Corinthians", "2CO"),
+    DANIEL("Daniel", "DAN"),
+    DEUTERONOMY("Deuteronomy"),
+    ECCLESIASTES("Ecclesiastes", "ECC"),
+    EPHESIANS("Ephesians", "EPH"),
+    ESTHER("Esther", "EST"),
+    EXODUS("Exodus", "EXO"),
+    EZEKIEL("Ezekiel", "EZE"),
+    EZRA("EZRA", "EZR"),
+    GALATIANS("Galatians", "GAL"),
+    GENESIS("Genesis", "GEN"),
+    HABAKKUK("Habakkuk", "HAB"),
+    HAGGAI("Haggai", "HAG"),
+    HEBREWS("Hebrews", "HEB"),
+    HOSEA("Hosea", "HOS"),
+    ISAIAH("Isaiah", "ISA"),
+    JAMES("James", "JAM"),
+    JEREMIAH("Jeremiah", "JER"),
+    JOB("Job", "JOB"),
+    JOEL("Joel", "JOE"),
+    JOHN("John", "JOH"),
+    JOHNS_CATEGORY("John (1,2,3)"),
+    ONE_JOHN("1 John", "1JN"),
+    TWO_JOHN("2 John", "2JN"),
+    THREE_JOHN("3 John", "3JN"),
+    JONAH("Jonah", "JON"),
+    JOSHUA("Joshua", "JOS"),
+    JUDE("Jude", "JUD"),
+    JUDGES("Judges", "JDG"),
+    ONE_KINGS("1 Kings", "1KI"),
+    TWO_KINGS("2 Kings", "2KI"),
+    LAMENTATIONS("Lamentations", "LAM"),
+    LEVITICUS("Leviticus", "LEV"),
+    LUKE("Luke", "LUK"),
+    MALACHI("Malachi", "MAL"),
+    MARK("Mark", "MRK"),
+    MATTHEW("Matthew", "MAT"),
+    MICAH("Micah", "MIC"),
+    NAHUM("Nahum", "NAM"),
+    NEHEMIAH("Nehemiah", "NEH"),
+    NUMBERS("Numbers", "NUM"),
+    OBADIAH("Obadiah", "OBA"),
+    ONE_PETER("1 Peter", "1PE"),
+    TWO_PETER("2 Peter", "2PE"),
+    PHILEMON("Philemon", "PHM"),
+    PHILIPPIANS("Philippians", "PHP"),
+    PROVERBS("Proverbs", "PRO"),
+    PSALMS("Psalms", "PSA"),
+    REVELATION("Revelation", "REV"),
+    ROMANS("Romans", "ROM"),
+    RUTH("Ruth", "RUT"),
+    ONE_SAMUEL,
+    TWO_SAMUEL,
+    SONG_OF_SOLOMON,
+    ONE_THESSALONIANS,
+    TWO_THESSALONIANS,
+    ONE_TIMOTHY,
+    TWO_TIMOTHY,
+    TITUS,
+    ZECHARIAH,
+    ZEPHANIAH;
+
+    var display: String? = null
+    var abbr: String? = null
+    constructor(display: String? = null, abbr: String? = null) {
+        this.display = display
+
+        if (display == null) {
+            this.display = name
+        }
+
+        if (abbr != null) {
+            this.abbr = abbr
+        }
+    }
+}

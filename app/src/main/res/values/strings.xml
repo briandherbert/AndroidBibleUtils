@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidBibleUtils</string>
+    <string name="title_activity_demo_bible_utils">DemoBibleUtilsActivity</string>
 </resources>
