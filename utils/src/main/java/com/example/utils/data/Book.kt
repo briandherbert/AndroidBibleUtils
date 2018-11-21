@@ -58,16 +58,16 @@ public enum class BOOK {
     REVELATION("Revelation", "REV"),
     ROMANS("Romans", "ROM"),
     RUTH("Ruth", "RUT"),
-    ONE_SAMUEL,
-    TWO_SAMUEL,
-    SONG_OF_SOLOMON,
-    ONE_THESSALONIANS,
-    TWO_THESSALONIANS,
-    ONE_TIMOTHY,
-    TWO_TIMOTHY,
-    TITUS,
-    ZECHARIAH,
-    ZEPHANIAH;
+    ONE_SAMUEL("1 Samuel", "1SA"),
+    TWO_SAMUEL("2 Samuel", "2SA"),
+    SONG_OF_SOLOMON("Song of Solomon", "SNG"),
+    ONE_THESSALONIANS("1 Thessalonians", "1TH"),
+    TWO_THESSALONIANS("2 Thessalonians", "2TH"),
+    ONE_TIMOTHY("1 Timothy", "1TI"),
+    TWO_TIMOTHY("2 Timothy", "2TI"),
+    TITUS("Titus", "TIT"),
+    ZECHARIAH("Zechariah", "ZEC"),
+    ZEPHANIAH("Zephaniah", "ZEP");
 
     var display: String? = null
     var abbr: String? = null

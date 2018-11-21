@@ -56,7 +56,7 @@ class BibleNavSmall : LinearLayout, OnClickListener, VerseFetcher.VerseFetcherLi
 
     interface BibleNavListener {
         fun onRefSelected(ref: BibleRef)
-        fun onBackPressed()
+        fun onNavBackPressed()
     }
 
     var mListener: BibleNavListener? = null
@@ -340,7 +340,7 @@ class BibleNavSmall : LinearLayout, OnClickListener, VerseFetcher.VerseFetcherLi
         when (mCurrentScreen) {
             Screen.BOOK_PICK -> setScreen(Screen.LETTER_PICK)
             Screen.VERSE_PICK -> setScreen(Screen.BOOK_PICK, mCurrentBooks)
-            Screen.LETTER_PICK -> mListener?.onBackPressed()
+            Screen.LETTER_PICK -> mListener?.onNavBackPressed()
         }
     }
 
