@@ -6,8 +6,9 @@
         android:layout_height="match_parent"
         tools:context=".DemoBibleUtilsActivity">
 
-    <com.example.brianherbert.biblenavwatch.ui.BibleNavSmall android:layout_width="match_parent"
-                                                             android:layout_height="match_parent"/>
-
+    <com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
+            android:id="@+id/bible_nav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </FrameLayout>
