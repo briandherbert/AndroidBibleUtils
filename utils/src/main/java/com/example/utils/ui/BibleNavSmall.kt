@@ -295,10 +295,13 @@ class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseF
                 "chap is " + mCurrentRef.chap + " building verse " + myPart + " max " + partMax + " verseref " + mCurrentRef.verse
             )
 
-        } else if (digit != null) {
+        } else {
             partMax = mCurrentVersesCounts!!.size
             myPart = mVerseQuery
-            mCurrentRef.chap = myPart.toInt()
+
+            if (!TextUtils.isEmpty(myPart)) {
+                mCurrentRef.chap = myPart.toInt()
+            }
             Log.v(TAG, "building chap " + myPart + " max is " + partMax)
         }
 
@@ -310,7 +313,7 @@ class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseF
         mLblVerseQuery.isSelected = mBtnBackspace.isEnabled
 
         // Now figure out what numbers can come next so we can disable impossible ones
-        var maxDigit = 9
+        var maxDigit = partMax
         if (myLength == partLength) {   // If our number has maxed out digit spaces, no numbers can follow
             maxDigit = -1
         } else if (myLength + 1 == partLength) {
@@ -326,8 +329,6 @@ class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseF
                     maxDigit = partMax.toString()[myLength] - '0'
                 }
             }
-        } else if (myLength == 0) {
-            maxDigit = mCurrentVersesCounts!!.size
         }
 
         Log.v(TAG, "maxdigit " + maxDigit)
