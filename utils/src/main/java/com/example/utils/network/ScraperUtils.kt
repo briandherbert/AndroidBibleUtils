@@ -3,19 +3,14 @@ package com.example.brianherbert.biblenavwatch.network
 import android.util.Log
 
 import java.io.BufferedReader
-import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.ArrayList
 
 object ScraperUtils {
     val TAG = "ScraperUtils"
 
     val MAX_PAGE_SRC = 20000
-
-    val IMAGE_URL_MARKER = "img src="
-    val REDIRECT_MARKER = "URL="
 
     val ERROR_RESULT = "XXXERRORXXX"
 

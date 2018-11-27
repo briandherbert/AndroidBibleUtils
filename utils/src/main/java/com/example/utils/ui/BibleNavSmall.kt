@@ -12,11 +12,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.brianherbert.biblenavwatch.data.*
-import com.example.brianherbert.biblenavwatch.network.VerseFetcher
+import com.example.brianherbert.biblenavwatch.network.BibleComVerseFetcher
 import com.example.utils.R
 import com.example.utils.data.BibleData
 
-class BibleNavSmall : LinearLayout, OnClickListener, VerseFetcher.VerseFetcherListener {
+class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseFetcherListener {
     override fun onVerseReceived(verse: Verse) {
         Log.v(TAG, "Got verse " + verse.mText)
     }
@@ -140,6 +140,10 @@ class BibleNavSmall : LinearLayout, OnClickListener, VerseFetcher.VerseFetcherLi
 
         setScreen(Screen.LETTER_PICK)
         invalidate()
+    }
+
+    fun reset() {
+        setScreen(Screen.LETTER_PICK)
     }
 
     fun setScreen(screen: Screen, books: ArrayList<BOOK> = arrayListOf()) {

@@ -1,13 +1,12 @@
 package com.example.brianherbert.biblenavwatch.network
 
-import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 
 import com.example.brianherbert.biblenavwatch.data.Verse
 
-class VerseFetcher private constructor(
+class BibleComVerseFetcher private constructor(
     internal var mRef: BibleRef,
     internal var mListener: VerseFetcherListener
 ) : AsyncTask<Void, Void, String>() {
@@ -45,18 +44,17 @@ class VerseFetcher private constructor(
     }
 
     companion object {
-        internal val TAG = VerseFetcher::class.java.simpleName
+        internal val TAG = BibleComVerseFetcher::class.java.simpleName
 
         internal val START_KEY = "<title data-react-helmet=\"true\">"
         internal val END_KEY = "</title>"
 
         fun fetchText(verseRef: BibleRef, listener: VerseFetcherListener) {
-            VerseFetcher(verseRef, listener).execute()
+            BibleComVerseFetcher(verseRef, listener).execute()
         }
 
         internal fun log(s: String) {
             Log.v(TAG, s)
         }
     }
-
 }
