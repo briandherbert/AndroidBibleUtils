@@ -326,6 +326,8 @@ class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseF
                     maxDigit = partMax.toString()[myLength] - '0'
                 }
             }
+        } else if (myLength == 0) {
+            maxDigit = mCurrentVersesCounts!!.size
         }
 
         Log.v(TAG, "maxdigit " + maxDigit)
