@@ -1,6 +1,6 @@
 package com.example.utils.data.yv
 
-data class YVVerseResponse(
+data class YVPassageResponse(
     val data: YVVerseData,
     val code: Int
 ) {

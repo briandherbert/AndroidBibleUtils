@@ -7,10 +7,18 @@
         android:orientation="vertical"
         tools:context=".DemoBibleUtilsActivity">
 
-    <TextView
-            android:id="@+id/lbl_verse"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:scrollbars="vertical"
+            android:fillViewport="true">
+
+        <TextView
+                android:id="@+id/lbl_verse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="testing"/>
+    </ScrollView>
 
     <com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
             android:id="@+id/bible_nav"

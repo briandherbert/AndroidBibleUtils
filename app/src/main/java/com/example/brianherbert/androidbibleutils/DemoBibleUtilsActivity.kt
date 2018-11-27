@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
-import com.example.utils.data.yv.YVVerseResponse
+import com.example.utils.data.yv.YVPassageResponse
 import com.example.utils.network.YVFetcher
 
 
@@ -37,7 +37,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         // NOOP
     }
 
-    override fun onFetched(response: YVVerseResponse?) {
+    override fun onFetched(response: YVPassageResponse?) {
         Log.v("blarg", "got verse " + response?.toString())
         mLblVerse.text = (response?.getVerseText() + "\n" + response?.getHumanRef())
         mBibleNav.reset()

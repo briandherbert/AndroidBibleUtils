@@ -8,8 +8,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.brianherbert.biblenavwatch.data.BibleRef
-import com.example.utils.data.yv.YVVerseResponse
-import com.example.utils.data.yv.YVVerseResponseWrapper
+import com.example.utils.data.yv.YVPassageResponse
+import com.example.utils.data.yv.YVPassageResponseWrapper
 import com.google.gson.Gson
 import java.nio.charset.Charset
 
@@ -19,27 +19,31 @@ class YVFetcher(val context: Context, val listener: YVFetcherListener) {
     }
 
     interface YVFetcherListener {
-        fun onFetched(response: YVVerseResponse? = null)
+        fun onFetched(response: YVPassageResponse? = null)
     }
 
     fun getPassage(ref: BibleRef) {
-        if (ref.verse != null) {
-            getVerse(ref.book.abbr + "." + ref.chap + "." + ref.verse)
-        } else {
-            // TODO: Chapter
+        var refStr = ref.book.abbr + "." + ref.chap
+        var isChapter = ref.verse == null
+
+        if (!isChapter) {
+            refStr += ".${ref.verse}"
         }
+
+        getVerse(refStr, isChapter)
     }
 
-    private fun getVerse(ref: String) {
+    private fun getVerse(ref: String, isChapter: Boolean = false) {
         Log.v(TAG, "Requesting $ref")
         val queue = Volley.newRequestQueue(context)
-        val url = "https://bible.youversionapi.com/3.1/verse.json?id=111&reference=$ref"
+        var endpoint = if (isChapter) "chapter" else "verse"
+        val url = "https://bible.youversionapi.com/3.1/$endpoint.json?id=111&reference=$ref&format=text"
         val getRequest = object : YVStringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->
                 // response
-                var responseWrapper: YVVerseResponseWrapper =
-                    Gson().fromJson(response, YVVerseResponseWrapper::class.java)
+                var responseWrapper: YVPassageResponseWrapper =
+                    Gson().fromJson(response, YVPassageResponseWrapper::class.java)
                 listener.onFetched(responseWrapper.response)
             },
             Response.ErrorListener { error ->
