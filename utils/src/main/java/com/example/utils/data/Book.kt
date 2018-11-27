@@ -27,7 +27,7 @@ public enum class BOOK {
     JEREMIAH("Jeremiah", "JER"),
     JOB("Job", "JOB"),
     JOEL("Joel", "JOL"),
-    JOHN("John", "JOH"),
+    JOHN("John", "JHN"),
     JOHNS_CATEGORY("John (1,2,3)"),
     ONE_JOHN("1 John", "1JN"),
     TWO_JOHN("2 John", "2JN"),
