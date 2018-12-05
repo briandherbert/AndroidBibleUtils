@@ -3,18 +3,28 @@ package com.example.brianherbert.androidbibleutils
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
+import com.example.brianherbert.biblenavwatch.data.BOOK
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
+import com.example.utils.data.BibleData
 import com.example.utils.data.yv.YVPassageResponse
 import com.example.utils.network.YVFetcher
 
 
 class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, YVFetcher.YVFetcherListener {
+    val TAG = "Demo Bible"
+
     lateinit var mLblVerse: TextView
     lateinit var mBibleNav: BibleNavSmall
 
+    lateinit var mBtnNext: Button
+    lateinit var mBtnPrev: Button
+
     lateinit var mYVFetcher: YVFetcher
+
+    var mBibleRef: BibleRef? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +36,28 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mLblVerse = findViewById(R.id.lbl_verse)
 
         mYVFetcher = YVFetcher(this, this)
+        
+        mBtnNext = findViewById(R.id.btn_next)
+        mBtnNext.setOnClickListener { view ->
+            var ref = BibleData.nextRef(mBibleRef)
+            if (ref != null) {
+                onRefSelected(ref)
+            }
+        }
+
+        mBtnPrev = findViewById(R.id.btn_prev)
+        mBtnPrev.setOnClickListener { view ->
+
+            var ref = BibleData.prevRef(mBibleRef)
+            if (ref != null) {
+                onRefSelected(ref)
+            }
+        }
     }
 
     override fun onRefSelected(ref: BibleRef) {
+        mBibleRef = ref
         mYVFetcher.getPassage(ref)
-
     }
 
     override fun onNavBackPressed() {
@@ -38,8 +65,8 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
     }
 
     override fun onFetched(response: YVPassageResponse?) {
-        Log.v("blarg", "got verse " + response?.toString())
-        mLblVerse.text = (response?.getVerseText() + "\n" + response?.getHumanRef())
+        Log.v(TAG, "got verse " + response?.toString())
+        mLblVerse.text = (response?.getHumanRef() + "\n" + response?.getVerseText())
         mBibleNav.reset()
     }
 }

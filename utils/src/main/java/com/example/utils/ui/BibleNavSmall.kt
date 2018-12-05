@@ -416,7 +416,7 @@ class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseF
 
                             Log.v(TAG, "Clicked verse " + mCurrentRef.toString())
 
-                            mListener?.onRefSelected(mCurrentRef)
+                            mListener?.onRefSelected(BibleRef(mCurrentRef))
                         }
                     } else {
                         onVerseUpdated(digit)

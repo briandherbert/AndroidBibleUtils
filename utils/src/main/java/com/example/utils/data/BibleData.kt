@@ -6,9 +6,81 @@ import com.example.brianherbert.biblenavwatch.data.BibleVersion
 
 class BibleData {
     companion object {
-        val LONGEST_VERSE = BibleRef(BibleVersion.ESV, BOOK.ESTHER, 8, 9)
+        val LONGEST_VERSE = BibleRef(BOOK.ESTHER, 8, 9)
+        val SHORTEST_VERSE = BibleRef(BOOK.JOHN, 11, 35)
 
-        val VERSES_MAP = mapOf(
+        val LONGEST_CHAP = BibleRef(BOOK.PSALMS, 119)
+        val SHORTEST_CHAP = BibleRef(BOOK.PSALMS, 117)
+
+        fun nextRef(ref: BibleRef?) : BibleRef? {
+            if (ref == null || ref.book == null || ref.chap == null) {
+                return null
+            }
+
+            // Are we at the end of the chapter?
+            var advanceChap = ref.verse == null || ref.verse!! >= VERSES_MAP[ref.book]!![ref.chap - 1]
+            var advanceBook = ref.chap >= VERSES_MAP[ref.book]!!.size && advanceChap
+
+            if (advanceBook && ref.book == BOOK.REVELATION) {
+                return null
+            }
+
+            var nextRef = BibleRef(ref.book, ref.chap, if (ref.verse == null) null else 1)
+
+            if (advanceBook) {
+                for (i in 0 until VERSES_MAP.keys.size) {
+                    if (VERSES_MAP.keys.asSequence().elementAt(i) == ref.book) {
+                        nextRef.book = VERSES_MAP.keys.asSequence().elementAt(i + 1)
+                        nextRef.chap = 1
+                        break;
+                    }
+                }
+            } else if (advanceChap) {
+                nextRef.chap = ref.chap + 1
+            } else {    // advance just the verse
+                nextRef.verse = ref.verse!! + 1
+            }
+
+            return nextRef
+        }
+
+        fun prevRef(ref: BibleRef?) : BibleRef? {
+            if (ref == null || ref.book == null || ref.chap == null) {
+                return null
+            }
+
+            // Are we at the end of the chapter?
+            var retreatChap = ref.verse == null || ref.verse!! == 1
+            var retreatBook = ref.chap == 1 && retreatChap
+
+            if (retreatBook && ref.book == BOOK.GENESIS) {
+                return null
+            }
+
+            var prevRef = BibleRef(ref.book, ref.chap, if (ref.verse == null) null else 1)
+
+            if (retreatBook) {
+                for (i in 0 until VERSES_MAP.keys.size) {
+                    if (VERSES_MAP.keys.asSequence().elementAt(i) == ref.book) {
+                        prevRef.book = VERSES_MAP.keys.asSequence().elementAt(i - 1)
+                        prevRef.chap = VERSES_MAP[prevRef.book]!!.size
+                        break;
+                    }
+                }
+            } else if (retreatChap) {
+                prevRef.chap = ref.chap - 1
+            } else {    // advance just the verse
+                prevRef.verse = ref.verse!! - 1
+            }
+
+            if (retreatChap || retreatBook) {
+                prevRef.verse = VERSES_MAP[prevRef.book]!![prevRef.chap - 1]
+            }
+
+            return prevRef
+        }
+
+        val VERSES_MAP = linkedMapOf(
             BOOK.GENESIS to arrayOf(31,25,24,26,32,22,24,22,29,32,32,20,18,24,21,16,27,33,38,18,34,24,20,67,34,35,46,22,35,43,55,32,20,31,29,43,36,30,23,23,57,38,34,34,28,34,31,22,33,26),
             BOOK.EXODUS to arrayOf(22,25,22,31,23,30,25,32,35,29,10,51,22,31,27,36,16,27,25,26,36,31,33,18,40,37,21,43,46,38,18,35,23,35,35,38,29,31,43,38),
             BOOK.LEVITICUS to arrayOf(17,16,17,35,19,30,38,36,24,20,47,8,59,57,33,34,16,30,37,27,24,33,44,23,55,46,34),
