@@ -57,7 +57,8 @@ class BibleData {
                 return null
             }
 
-            var prevRef = BibleRef(ref.book, ref.chap, if (ref.verse == null) null else 1)
+            var hasVerse = ref.verse != null
+            var prevRef = BibleRef(ref.book, ref.chap, if (hasVerse) 1 else null)
 
             if (retreatBook) {
                 for (i in 0 until VERSES_MAP.keys.size) {
@@ -73,7 +74,7 @@ class BibleData {
                 prevRef.verse = ref.verse!! - 1
             }
 
-            if (retreatChap || retreatBook) {
+            if (hasVerse && (retreatChap || retreatBook)) {
                 prevRef.verse = VERSES_MAP[prevRef.book]!![prevRef.chap - 1]
             }
 
