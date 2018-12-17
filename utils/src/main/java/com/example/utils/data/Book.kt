@@ -82,4 +82,16 @@ public enum class BOOK {
             this.abbr = abbr
         }
     }
+
+    companion object {
+        fun fromAbbr(abbr: String): BOOK {
+            for (book in BOOK.values()) {
+                if (book.abbr == abbr) {
+                    return book
+                }
+            }
+
+            return BOOK.GENESIS
+        }
+    }
 }

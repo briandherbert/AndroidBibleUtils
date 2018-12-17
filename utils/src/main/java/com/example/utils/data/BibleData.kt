@@ -25,7 +25,7 @@ class BibleData {
                 return null
             }
 
-            var nextRef = BibleRef(ref.book, ref.chap, if (ref.verse == null) null else 1)
+            var nextRef = BibleRef(ref)
 
             if (advanceBook) {
                 for (i in 0 until VERSES_MAP.keys.size) {
@@ -58,7 +58,7 @@ class BibleData {
             }
 
             var hasVerse = ref.verse != null
-            var prevRef = BibleRef(ref.book, ref.chap, if (hasVerse) 1 else null)
+            var prevRef = BibleRef(ref)
 
             if (retreatBook) {
                 for (i in 0 until VERSES_MAP.keys.size) {

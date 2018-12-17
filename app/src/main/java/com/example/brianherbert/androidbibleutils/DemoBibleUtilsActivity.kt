@@ -5,15 +5,19 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import com.example.brianherbert.biblenavwatch.data.BOOK
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
+import com.example.utils.bl.BibleFetcher
+import com.example.utils.bl.LocalBibleFetcher
 import com.example.utils.data.BibleData
 import com.example.utils.data.yv.YVPassageResponse
-import com.example.utils.network.YVFetcher
+import com.example.utils.bl.YVFetcher
+import com.example.utils.data.BiblePassage
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 
-class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, YVFetcher.YVFetcherListener {
+class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, BibleFetcher.BibleFetcherListener {
     val TAG = "Demo Bible"
 
     lateinit var mLblVerse: TextView
@@ -22,7 +26,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
     lateinit var mBtnNext: Button
     lateinit var mBtnPrev: Button
 
-    lateinit var mYVFetcher: YVFetcher
+    lateinit var bibleFetcher: BibleFetcher
 
     var mBibleRef: BibleRef? = null
 
@@ -35,8 +39,9 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
         mLblVerse = findViewById(R.id.lbl_verse)
 
-        mYVFetcher = YVFetcher(this, this)
-        
+        //bibleFetcher = YVFetcher(this, this)
+        bibleFetcher = LocalBibleFetcher(this, this)
+
         mBtnNext = findViewById(R.id.btn_next)
         mBtnNext.setOnClickListener { view ->
             var ref = BibleData.nextRef(mBibleRef)
@@ -57,14 +62,14 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
     override fun onRefSelected(ref: BibleRef) {
         mBibleRef = ref
-        mYVFetcher.getPassage(ref)
+        bibleFetcher.getPassage(ref)
     }
 
     override fun onNavBackPressed() {
         // NOOP
     }
 
-    override fun onFetched(response: YVPassageResponse?) {
+    override fun onFetched(response: BiblePassage?) {
         Log.v(TAG, "got verse " + response?.toString())
         mLblVerse.text = (response?.getHumanRef() + "\n" + response?.getVerseText())
         mBibleNav.reset()

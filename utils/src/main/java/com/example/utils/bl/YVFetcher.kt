@@ -1,4 +1,4 @@
-package com.example.utils.network
+package com.example.utils.bl
 
 import android.content.Context
 import android.util.Log
@@ -8,21 +8,18 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.brianherbert.biblenavwatch.data.BibleRef
+import com.example.utils.data.BiblePassage
 import com.example.utils.data.yv.YVPassageResponse
 import com.example.utils.data.yv.YVPassageResponseWrapper
 import com.google.gson.Gson
 import java.nio.charset.Charset
 
-class YVFetcher(val context: Context, val listener: YVFetcherListener) {
+class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher(context, listener) {
     companion object {
         internal val TAG = YVFetcher::class.java.simpleName
     }
 
-    interface YVFetcherListener {
-        fun onFetched(response: YVPassageResponse? = null)
-    }
-
-    fun getPassage(ref: BibleRef) {
+    override fun getPassage(ref: BibleRef) {
         var refStr = ref.book.abbr + "." + ref.chap
         var isChapter = ref.verse == null
 
@@ -44,7 +41,7 @@ class YVFetcher(val context: Context, val listener: YVFetcherListener) {
                 // response
                 var responseWrapper: YVPassageResponseWrapper =
                     Gson().fromJson(response, YVPassageResponseWrapper::class.java)
-                listener.onFetched(responseWrapper.response)
+                listener.onFetched(BiblePassage(responseWrapper.response.data))
             },
             Response.ErrorListener { error ->
                 // TODO Auto-generated method stub
