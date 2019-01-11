@@ -8,16 +8,16 @@ import android.widget.TextView
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
 import com.example.utils.bl.BibleFetcher
-import com.example.utils.bl.LocalBibleFetcher
-import com.example.utils.data.BibleData
-import com.example.utils.data.yv.YVPassageResponse
+import com.example.utils.bl.PassagePlayer
 import com.example.utils.bl.YVFetcher
+import com.example.utils.data.BibleData
 import com.example.utils.data.BiblePassage
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 
-class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, BibleFetcher.BibleFetcherListener {
+// TODO: Audio button states
+class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, BibleFetcher.BibleFetcherListener,
+    PassagePlayer.PassagePlayerListener {
+
     val TAG = "Demo Bible"
 
     lateinit var mLblVerse: TextView
@@ -25,10 +25,15 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
     lateinit var mBtnNext: Button
     lateinit var mBtnPrev: Button
+    lateinit var mBtnAudio: Button
 
     lateinit var bibleFetcher: BibleFetcher
 
     var mBibleRef: BibleRef? = null
+
+    var isPlayingAudio = false
+
+    lateinit var mPassagePlayer: PassagePlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +44,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
         mLblVerse = findViewById(R.id.lbl_verse)
 
-        //bibleFetcher = YVFetcher(this, this)
-        bibleFetcher = LocalBibleFetcher(this, this)
+        bibleFetcher = YVFetcher(this, this)
 
         mBtnNext = findViewById(R.id.btn_next)
         mBtnNext.setOnClickListener { view ->
@@ -58,10 +62,28 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
                 onRefSelected(ref)
             }
         }
+
+        mBtnAudio = findViewById(R.id.btn_audio)
+        mBtnAudio.isEnabled = false
+        mBtnAudio.setOnClickListener { view ->
+            if (!isPlayingAudio) {
+                mPassagePlayer.play()
+                mBtnAudio.text = "Stop"
+            } else {
+                mPassagePlayer.pause()
+                mBtnAudio.text = "Audio"
+            }
+
+            isPlayingAudio = !isPlayingAudio
+        }
+
+        mPassagePlayer = PassagePlayer(this, this)
     }
 
     override fun onRefSelected(ref: BibleRef) {
+        mBtnAudio.isEnabled = false
         mBibleRef = ref
+        mPassagePlayer!!.stop()
         bibleFetcher.getPassage(ref)
     }
 
@@ -73,5 +95,13 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         Log.v(TAG, "got verse " + response?.toString())
         mLblVerse.text = (response?.getHumanRef() + "\n" + response?.getVerseText())
         mBibleNav.reset()
+
+        mPassagePlayer.load(response!!.ref)
+    }
+
+    override fun onReadyToPlay(ref: BibleRef) {
+        Log.v("blarg", "ready to play")
+        mBtnAudio.isEnabled = true
+
     }
 }

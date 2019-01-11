@@ -9,39 +9,51 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.utils.data.BiblePassage
+import com.example.utils.data.yv.YVAudioResponse
+import com.example.utils.data.yv.YVAudioResponseWrapper
 import com.example.utils.data.yv.YVPassageResponse
 import com.example.utils.data.yv.YVPassageResponseWrapper
 import com.google.gson.Gson
 import java.nio.charset.Charset
 
-class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher(context, listener) {
+class YVAudioFetcher(val context: Context, val listener: AudioFetcherListener) {
     companion object {
-        internal val TAG = YVFetcher::class.java.simpleName
+        internal val TAG = YVAudioFetcher::class.java.simpleName
     }
 
-    override fun getPassage(ref: BibleRef) {
-        var refStr = ref.book.abbr + "." + ref.chap
-        var isChapter = ref.verse == null
+    interface AudioFetcherListener {
+        fun onAudioDataFetched(audioData: YVAudioResponse.YVAudioData? = null)
+    }
 
-        if (!isChapter) {
-            refStr += ".${ref.verse}"
+    var data: YVAudioResponse.YVAudioData? = null
+    var bibleRef: BibleRef? = null
+
+    fun getVerse(ref: BibleRef) {
+        var bookAbbr = ref.book.abbr
+        var chap = ref.chap
+
+        // See if we have it cached
+        if (bookAbbr.equals(bibleRef?.book?.abbr) && ref.chap == bibleRef?.chap) {
+            listener.onAudioDataFetched(data)
+            return
         }
 
-        getVerse(refStr, isChapter)
-    }
+        bibleRef = ref
 
-    private fun getVerse(ref: String, isChapter: Boolean = false) {
-        Log.v(TAG, "Requesting $ref")
+        Log.v(TAG, "Requesting $bookAbbr")
         val queue = Volley.newRequestQueue(context)
-        var endpoint = if (isChapter) "chapter" else "verse"
-        val url = "https://bible.youversionapi.com/3.1/$endpoint.json?id=111&reference=$ref&format=text"
+        val url = "http://audio-bible.youversionapistaging.com/3.1/chapter.json?version_id=111&reference=$bookAbbr.$chap"
         val getRequest = object : YVStringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->
                 // response
-                var responseWrapper: YVPassageResponseWrapper =
-                    Gson().fromJson(response, YVPassageResponseWrapper::class.java)
-                listener.onFetched(BiblePassage(responseWrapper.response.data))
+                var responseWrapper: YVAudioResponseWrapper =
+                    Gson().fromJson(response, YVAudioResponseWrapper::class.java)
+
+                data = responseWrapper.response.data?.get(0)
+
+                // Url doesn't have "https:"
+                listener.onAudioDataFetched(data)
             },
             Response.ErrorListener { error ->
                 // TODO Auto-generated method stub
@@ -52,7 +64,7 @@ class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher
                     Log.e(TAG, "error bytes: $msg")
                 }
 
-                listener.onFetched()
+                listener.onAudioDataFetched()
             }
         ) {
 
