@@ -71,7 +71,7 @@ public enum class BOOK {
 
     var display: String? = null
     var abbr: String? = null
-    constructor(display: String? = null, abbr: String? = null) {
+    constructor(display: String, abbr: String? = null) {
         this.display = display
 
         if (display == null) {
@@ -91,7 +91,17 @@ public enum class BOOK {
                 }
             }
 
-            return BOOK.GENESIS
+            return GENESIS
+        }
+
+        fun fromName(name: String): BOOK {
+            for (book in BOOK.values()) {
+                if (book.display.equals(name, true)) {
+                    return book
+                }
+            }
+
+            return JUDE
         }
     }
 }

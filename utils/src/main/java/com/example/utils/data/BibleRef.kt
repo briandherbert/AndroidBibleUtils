@@ -1,6 +1,7 @@
 package com.example.brianherbert.biblenavwatch.data
 
 import com.example.utils.data.yv.YVReference
+import java.lang.IllegalArgumentException
 
 class BibleRef constructor(
     var version: BibleVersion = BibleVersion.ESV,
@@ -12,13 +13,25 @@ class BibleRef constructor(
 
     constructor(ref: BibleRef) : this(ref.version, ref.book, ref.chap, ref.verse)
 
+    /**
+     * TODO: Check for invalid refs
+     */
     constructor(version: BibleVersion, usfm: String) : this(version, BOOK.GENESIS, 1, null) {
-        var parts = usfm.split('.')
-        book = BOOK.fromAbbr(parts[0])
-        chap = parts[1].toInt()
+        if (usfm.contains('.')) {
+            var parts = usfm.split('.')
+            book = BOOK.fromAbbr(parts[0])
 
-        if (parts.size > 2) {
-            verse = parts[2].toInt()
+            chap = parts[1].toInt()
+
+            if (parts.size > 2) {
+                verse = parts[2].toInt()
+            }
+        } else if (usfm.contains(':')) {    // Try plaintext "Genesis 1:1"
+            var parts = usfm.split(' ')
+            var nums = parts[1].split(':')
+            book = BOOK.fromName(parts[0])
+            chap = nums[0].toInt()
+            verse = nums[1].toInt()
         }
     }
 
@@ -26,7 +39,7 @@ class BibleRef constructor(
         yvRef.version_id.toInt()), BOOK.GENESIS, 1, null) {
 
         var parts = yvRef.usfm[0].split('.')
-        book = BOOK.fromAbbr(parts[0])
+        book = BOOK.fromAbbr(parts[0])!!
         chap = parts[1].toInt()
 
         if (parts.size > 2) {

@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.brianherbert.biblenavwatch.data.BibleRef
+import com.example.brianherbert.biblenavwatch.data.BibleVersion
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
 import com.example.utils.bl.BibleFetcher
 import com.example.utils.bl.PassagePlayer
