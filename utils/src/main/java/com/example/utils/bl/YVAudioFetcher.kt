@@ -42,7 +42,7 @@ class YVAudioFetcher(val context: Context, val listener: AudioFetcherListener) {
 
         Log.v(TAG, "Requesting $bookAbbr")
         val queue = Volley.newRequestQueue(context)
-        val url = "http://audio-bible.youversionapistaging.com/3.1/chapter.json?version_id=111&reference=$bookAbbr.$chap"
+        val url = "http://audio-bible.youversionapistaging.com/3.1/chapter.json?version_id=${ref.version.id}&reference=$bookAbbr.$chap"
         val getRequest = object : YVStringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->

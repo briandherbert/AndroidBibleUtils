@@ -2,14 +2,11 @@ package com.example.utils.bl
 
 import android.content.Context
 import android.util.Log
-import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.utils.data.BiblePassage
-import com.example.utils.data.yv.YVPassageResponse
 import com.example.utils.data.yv.YVPassageResponseWrapper
 import com.google.gson.Gson
 import java.nio.charset.Charset
@@ -27,14 +24,14 @@ class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher
             refStr += ".${ref.verse}"
         }
 
-        getVerse(refStr, isChapter)
+        getVerse(ref.version.id, refStr, isChapter)
     }
 
-    private fun getVerse(ref: String, isChapter: Boolean = false) {
+    private fun getVerse(version: Int, ref: String, isChapter: Boolean = false) {
         Log.v(TAG, "Requesting $ref")
         val queue = Volley.newRequestQueue(context)
         var endpoint = if (isChapter) "chapter" else "verse"
-        val url = "https://bible.youversionapi.com/3.1/$endpoint.json?id=111&reference=$ref&format=text"
+        val url = "https://bible.youversionapi.com/3.1/$endpoint.json?id=$version&reference=$ref&format=text"
         val getRequest = object : YVStringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->

@@ -9,6 +9,9 @@ import com.example.utils.data.yv.YVAudioResponse
 import java.lang.Exception
 import java.util.*
 
+/**
+ * This class uses MediaPlayer!
+ */
 class PassagePlayer : YVAudioFetcher.AudioFetcherListener {
     var mp : MediaPlayer? = null
     var mAudioData : YVAudioResponse.YVAudioData? = null

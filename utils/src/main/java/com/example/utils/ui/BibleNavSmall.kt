@@ -75,7 +75,7 @@ class BibleNavSmall : LinearLayout, OnClickListener, BibleComVerseFetcher.VerseF
 
     var mVerseQuery = ""
     var mCurrentVersesCounts: Array<Int>? = null
-    var mCurrentRef: BibleRef = BibleRef(BibleVersion.NIV, BOOK.GENESIS, 1, 1)
+    var mCurrentRef: BibleRef = BibleRef(BibleVersion.ESV, BOOK.GENESIS, 1, 1)
     var mTvGrid = arrayOfNulls<TextView>(NUM_ROWS * NUM_COLS)
     var mRowViews = arrayOfNulls<ViewGroup>(NUM_ROWS)
 
