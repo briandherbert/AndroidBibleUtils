@@ -18,7 +18,7 @@ import com.example.utils.data.BiblePassage
 class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, BibleFetcher.BibleFetcherListener,
     PassagePlayer.PassagePlayerListener {
 
-    val TAG = "Demo Bible"
+    val TAG = "DemoBibleUtilsActivity"
 
     lateinit var mLblVerse: TextView
     lateinit var mBibleNav: BibleNavSmall
@@ -31,7 +31,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
     var mBibleRef: BibleRef? = null
 
-    var isPlayingAudio = false
+    var mIsPlayingAudio = false
 
     lateinit var mPassagePlayer: PassagePlayer
 
@@ -66,7 +66,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mBtnAudio = findViewById(R.id.btn_audio)
         mBtnAudio.isEnabled = false
         mBtnAudio.setOnClickListener { view ->
-            if (!isPlayingAudio) {
+            if (!mIsPlayingAudio) {
                 mPassagePlayer.play()
                 mBtnAudio.text = "Stop"
             } else {
@@ -74,7 +74,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
                 mBtnAudio.text = "Audio"
             }
 
-            isPlayingAudio = !isPlayingAudio
+            mIsPlayingAudio = !mIsPlayingAudio
         }
 
         mPassagePlayer = PassagePlayer(this, this)
@@ -99,9 +99,18 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mPassagePlayer.load(response!!.ref)
     }
 
-    override fun onReadyToPlay(ref: BibleRef) {
-        Log.v("blarg", "ready to play")
+    override fun onReadyToPlayPassage(ref: BibleRef) {
+        Log.v(TAG, "ready to play")
         mBtnAudio.isEnabled = true
-
     }
+
+    override fun onStoppedPassage(ref: BibleRef) {
+        Log.v(TAG, "playing stopped")
+        runOnUiThread {
+            mIsPlayingAudio = false
+            mBtnAudio.isEnabled = true
+            mBtnAudio.text = "Audio"
+        }
+    }
+
 }

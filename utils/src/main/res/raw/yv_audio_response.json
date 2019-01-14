@@ -1,0 +1,184 @@
+{
+  "response": {
+    "buildtime": "2019-01-10T16:06:19.817219+00:00",
+    "code": 200,
+    "data": [
+      {
+        "download_urls": {
+          "format_hls": "//audio-hls.youversionapi.com/3/m4a/32k/GEN/1-3b38a8016e5ed24cbc79d08bc32b49f7.m3u8?version_id=111",
+          "format_mp3_32k": "//d2d4fex9zklf9e.cloudfront.net/3/32k/GEN/1-3b38a8016e5ed24cbc79d08bc32b49f7.mp3?version_id=111"
+        },
+        "timing": [
+          {
+            "start": 4.76,
+            "end": 8.78,
+            "usfm": "GEN.1.1"
+          },
+          {
+            "start": 8.78,
+            "end": 18.1,
+            "usfm": "GEN.1.2"
+          },
+          {
+            "start": 18.1,
+            "end": 23.02,
+            "usfm": "GEN.1.3"
+          },
+          {
+            "start": 23.02,
+            "end": 29.14,
+            "usfm": "GEN.1.4"
+          },
+          {
+            "start": 29.14,
+            "end": 38.36,
+            "usfm": "GEN.1.5"
+          },
+          {
+            "start": 38.36,
+            "end": 44.92,
+            "usfm": "GEN.1.6"
+          },
+          {
+            "start": 44.92,
+            "end": 52.54,
+            "usfm": "GEN.1.7"
+          },
+          {
+            "start": 52.54,
+            "end": 60.8,
+            "usfm": "GEN.1.8"
+          },
+          {
+            "start": 60.8,
+            "end": 70.06,
+            "usfm": "GEN.1.9"
+          },
+          {
+            "start": 70.06,
+            "end": 77.88,
+            "usfm": "GEN.1.10"
+          },
+          {
+            "start": 77.88,
+            "end": 88.6,
+            "usfm": "GEN.1.11"
+          },
+          {
+            "start": 88.6,
+            "end": 100.1,
+            "usfm": "GEN.1.12"
+          },
+          {
+            "start": 100.1,
+            "end": 104.32,
+            "usfm": "GEN.1.13"
+          },
+          {
+            "start": 104.32,
+            "end": 116.6,
+            "usfm": "GEN.1.14"
+          },
+          {
+            "start": 116.6,
+            "end": 122.84,
+            "usfm": "GEN.1.15"
+          },
+          {
+            "start": 122.84,
+            "end": 131.54,
+            "usfm": "GEN.1.16"
+          },
+          {
+            "start": 131.54,
+            "end": 135.48,
+            "usfm": "GEN.1.17"
+          },
+          {
+            "start": 135.48,
+            "end": 142.38,
+            "usfm": "GEN.1.18"
+          },
+          {
+            "start": 142.38,
+            "end": 147.24,
+            "usfm": "GEN.1.19"
+          },
+          {
+            "start": 147.24,
+            "end": 155.36,
+            "usfm": "GEN.1.20"
+          },
+          {
+            "start": 155.36,
+            "end": 169.56,
+            "usfm": "GEN.1.21"
+          },
+          {
+            "start": 169.56,
+            "end": 179.48,
+            "usfm": "GEN.1.22"
+          },
+          {
+            "start": 179.48,
+            "end": 184.14,
+            "usfm": "GEN.1.23"
+          },
+          {
+            "start": 184.14,
+            "end": 198.56,
+            "usfm": "GEN.1.24"
+          },
+          {
+            "start": 198.56,
+            "end": 211.2,
+            "usfm": "GEN.1.25"
+          },
+          {
+            "start": 211.2,
+            "end": 232.62,
+            "usfm": "GEN.1.26"
+          },
+          {
+            "start": 232.62,
+            "end": 244.04,
+            "usfm": "GEN.1.27"
+          },
+          {
+            "start": 244.04,
+            "end": 257.78,
+            "usfm": "GEN.1.28"
+          },
+          {
+            "start": 257.78,
+            "end": 268.1,
+            "usfm": "GEN.1.29"
+          },
+          {
+            "start": 268.1,
+            "end": 282.48,
+            "usfm": "GEN.1.30"
+          },
+          {
+            "start": 282.48,
+            "end": 295.56,
+            "usfm": "GEN.1.31"
+          }
+        ],
+        "id": 3,
+        "version_id": 111,
+        "title": "NIV The Listener's Bible\u00ae"
+      },
+      {
+        "download_urls": {
+          "format_hls": "//audio-hls.youversionapi.com/429/m4a/32k/GEN/1-da75ce82c4e5d03f7789b47c2db0dba0.m3u8?version_id=111",
+          "format_mp3_32k": "//d2d4fex9zklf9e.cloudfront.net/429/32k/GEN/1-da75ce82c4e5d03f7789b47c2db0dba0.mp3?version_id=111"
+        },
+        "timing": null,
+        "id": 429,
+        "version_id": 111,
+        "title": "New International Version"
+      }
+    ]
+  }
+}

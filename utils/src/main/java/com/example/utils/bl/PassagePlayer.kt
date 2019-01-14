@@ -12,24 +12,30 @@ import java.util.*
 /**
  * This class uses MediaPlayer!
  */
-class PassagePlayer : YVAudioFetcher.AudioFetcherListener {
+open class PassagePlayer : YVAudioFetcher.AudioFetcherListener {
     var mp : MediaPlayer? = null
     var mAudioData : YVAudioResponse.YVAudioData? = null
-    var mLoadedRef: BibleRef? = null
+    var mRef: BibleRef? = null
     var mContext: Context
-    var mEndOfVerseTask: TimerTask? = null
+    private var mEndOfVerseTask: TimerTask? = null
 
     var mRefToUrl : HashMap<BibleRef, YVAudioResponse.YVAudioData> = HashMap()
 
     val TAG = "PassagePlayer"
 
-    var mAudioFetcher: YVAudioFetcher
+    private var mAudioFetcher: YVAudioFetcher
 
-    var mListener: PassagePlayerListener
+    private var mListener: PassagePlayerListener
 
+    /** Paused still counts as playing */
+    private var mIsPlaying = false
+    private var mIsVerse = false
+
+    var mIsLogging = false
 
     interface PassagePlayerListener {
-        fun onReadyToPlay(ref: BibleRef)
+        fun onReadyToPlayPassage(ref: BibleRef)
+        fun onStoppedPassage(ref: BibleRef)
     }
 
     constructor(context: Context, listener: PassagePlayerListener) {
@@ -39,15 +45,58 @@ class PassagePlayer : YVAudioFetcher.AudioFetcherListener {
     }
 
     fun load(ref: BibleRef) {
-        Log.v(TAG, "loading " + ref)
-        mLoadedRef = ref
-        mAudioFetcher.getVerse(ref)
+        log("loading " + ref)
+        mAudioData = null
+        mRef = ref
+        mIsVerse = ref.verse != null
+
+        if (mRefToUrl.containsKey(ref)) {
+            log("Found cached data")
+            onAudioDataFetched(mRefToUrl[ref])
+        } else {
+            mAudioFetcher.getVerse(ref)
+        }
+    }
+
+    override fun onAudioDataFetched(audioData: YVAudioResponse.YVAudioData?) {
+        log("got audio data for " + mRef)
+        mAudioData = audioData
+
+        // cache
+        if (mRef != null && audioData != null) {
+            log("caching data for " + mRef)
+            mRefToUrl.put(mRef!!, audioData)
+        }
+        preparePlayer()
+    }
+
+    /**
+     * Preps MediaPlayer using local audio data and ref
+     * @return success
+     */
+    private fun preparePlayer(): Boolean {
+        try {
+            mp = MediaPlayer.create(mContext, Uri.parse(mAudioData?.getStreamingUrl()))
+            mp!!.setOnPreparedListener { mListener.onReadyToPlayPassage(mRef!!) }
+
+            log("Successfully prepared player")
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting audio stream", e)
+        }
+
+        return false
     }
 
     fun play() {
+        log("Play, is mp playing? ${mp?.isPlaying}")
+        if (mp == null && !preparePlayer()) {
+            return;
+        }
+
         if (mp?.isPlaying != true) {
-            if (mLoadedRef?.verse != null) {    // Seek to verse
-                var idx = mLoadedRef!!.verse!! - 1
+            if (mIsVerse) {    // Seek to verse and schedule stopping at end
+                var idx = mRef!!.verse!! - 1
                 var timing = mAudioData?.timing?.get(idx)
                 var start = timing!!.start * 1000
                 var end = timing!!.end * 1000
@@ -55,47 +104,47 @@ class PassagePlayer : YVAudioFetcher.AudioFetcherListener {
                 mEndOfVerseTask = EndOfVerseTask(mp)
                 Timer().schedule(mEndOfVerseTask, (end - start).toLong())
 
-                Log.v(TAG, "seeking to " + start)
+                log("seeking to " + start)
                 mp?.seekTo(start.toInt())
             }
+            mp?.setOnCompletionListener { stop() }
             mp?.start()
+            mIsPlaying = true;
         }
     }
 
+    /**
+     * Destroys player
+     */
     fun stop() {
+        log("Stop")
+
         pause()
-        mEndOfVerseTask?.cancel()
         mp?.stop()
         mp?.release()
         mp = null
+        if (mIsPlaying) {
+            mListener?.onStoppedPassage(mRef!!)
+        }
+        mIsPlaying = false
     }
 
     fun pause() {
+        log("Pause")
+
+        mEndOfVerseTask?.cancel()
         if (mp?.isPlaying == true) {
             mp?.pause()
         }
     }
 
-    override fun onAudioDataFetched(audioData: YVAudioResponse.YVAudioData?) {
-        Log.v(TAG, "got audio data for " + mLoadedRef)
-        mAudioData = audioData
-
-        stop()
-
-        var url = audioData?.getStreamingUrl()
-        try {
-            mRefToUrl.put(mLoadedRef!!, audioData!!)
-            mp = MediaPlayer.create(mContext, Uri.parse(url))
-            mp!!.setOnPreparedListener { mListener.onReadyToPlay(mLoadedRef!!) }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error getting audio stream", e)
+    inner class EndOfVerseTask(var player: MediaPlayer?) : TimerTask() {
+        override fun run() {
+            this@PassagePlayer.stop()
         }
     }
-
-    internal class EndOfVerseTask(var player: MediaPlayer?) : TimerTask() {
-        override fun run() {
-            player?.stop()
-        }
-
+    
+    fun log(s: String) {
+        if (mIsLogging) log(s)
     }
 }

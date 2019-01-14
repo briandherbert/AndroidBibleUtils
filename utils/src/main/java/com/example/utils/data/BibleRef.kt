@@ -1,6 +1,5 @@
 package com.example.brianherbert.biblenavwatch.data
 
-import com.example.utils.data.yv.YVPassageResponse
 import com.example.utils.data.yv.YVReference
 
 class BibleRef constructor(
@@ -45,5 +44,27 @@ class BibleRef constructor(
 
     fun usfm(): String {
         return "${book.name}.$chap" + if (verse != null) ".$verse" else ""
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BibleRef
+
+        if (version != other.version) return false
+        if (book != other.book) return false
+        if (chap != other.chap) return false
+        if (verse != other.verse) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = version.hashCode()
+        result = 31 * result + book.hashCode()
+        result = 31 * result + chap
+        result = 31 * result + (verse ?: 0)
+        return result
     }
 }
