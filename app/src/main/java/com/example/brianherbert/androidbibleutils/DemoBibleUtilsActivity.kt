@@ -1,15 +1,18 @@
 package com.example.brianherbert.androidbibleutils
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.brianherbert.biblenavwatch.data.BibleRef
-import com.example.brianherbert.biblenavwatch.data.BibleVersion
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
 import com.example.utils.bl.BibleFetcher
 import com.example.utils.bl.PassagePlayer
+import com.example.utils.bl.VerseBitmapFetcher
 import com.example.utils.bl.YVFetcher
 import com.example.utils.data.BibleData
 import com.example.utils.data.BiblePassage
@@ -17,7 +20,7 @@ import com.example.utils.data.BiblePassage
 
 // TODO: Audio button states
 class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, BibleFetcher.BibleFetcherListener,
-    PassagePlayer.PassagePlayerListener {
+    PassagePlayer.PassagePlayerListener, VerseBitmapFetcher.VerseBitmapListener {
 
     val TAG = "DemoBibleUtilsActivity"
 
@@ -27,8 +30,11 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
     lateinit var mBtnNext: Button
     lateinit var mBtnPrev: Button
     lateinit var mBtnAudio: Button
+    lateinit var mBtnBmp: Button
+    lateinit var mImg: ImageView
 
     lateinit var bibleFetcher: BibleFetcher
+    lateinit var mVerseBmpFetcher: VerseBitmapFetcher
 
     var mBibleRef: BibleRef? = null
 
@@ -46,6 +52,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mLblVerse = findViewById(R.id.lbl_verse)
 
         bibleFetcher = YVFetcher(this, this)
+        mVerseBmpFetcher = VerseBitmapFetcher(this, this)
 
         mBtnNext = findViewById(R.id.btn_next)
         mBtnNext.setOnClickListener { view ->
@@ -77,6 +84,16 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
             mIsPlayingAudio = !mIsPlayingAudio
         }
+
+        mBtnBmp = findViewById(R.id.btn_image)
+        mBtnBmp.setOnClickListener {
+            if (mBibleRef?.verse != null) {
+                mVerseBmpFetcher.getBitmap(mBibleRef!!)
+            }
+        }
+
+        mImg = findViewById(R.id.img_verse)
+        mImg.setOnClickListener { mImg.visibility = View.GONE }
 
         mPassagePlayer = PassagePlayer(this, this)
     }
@@ -112,6 +129,18 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
             mBtnAudio.isEnabled = true
             mBtnAudio.text = "Audio"
         }
+    }
+
+    override fun onVerseBitmapLoaded(bmp: Bitmap?) {
+        if (bmp == null) {
+            Log.e(TAG, "Error getting bmp")
+            return
+        }
+
+        Log.v(TAG, "got bitmap size ${bmp.width}, ${bmp.height}")
+
+        mImg.visibility = View.VISIBLE
+        mImg.setImageBitmap(bmp)
     }
 
 }

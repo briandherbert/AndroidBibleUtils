@@ -7,25 +7,36 @@
         android:orientation="vertical"
         tools:context=".DemoBibleUtilsActivity">
 
-    <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:scrollbars="vertical"
-            android:fillViewport="true">
-
-        <TextView
-                android:id="@+id/lbl_verse"
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+        <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:text="testing"/>
-    </ScrollView>
+                android:scrollbars="vertical"
+                android:fillViewport="true">
+
+            <TextView
+                    android:id="@+id/lbl_verse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="testing"/>
+        </ScrollView>
+
+        <ImageView
+                android:id="@+id/img_verse"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+    </FrameLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
         <Button
                 android:id="@+id/btn_prev"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="PREV" />
+                android:text="PREV"/>
 
         <View
                 android:layout_weight="1"
@@ -37,7 +48,19 @@
                 android:id="@+id/btn_audio"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="AUDIO" />
+                android:text="AUDIO"/>
+
+        <View
+                android:layout_weight="1"
+                android:layout_width="1dp"
+                android:layout_height="10dp"
+        />
+
+        <Button
+                android:id="@+id/btn_image"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="IMAGE"/>
 
         <View
                 android:layout_weight="1"
@@ -49,7 +72,7 @@
                 android:id="@+id/btn_next"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="NEXT" />
+                android:text="NEXT"/>
     </LinearLayout>
 
     <com.example.brianherbert.biblenavwatch.ui.BibleNavSmall

@@ -56,7 +56,7 @@ class BibleRef constructor(
     }
 
     fun usfm(): String {
-        return "${book.name}.$chap" + if (verse != null) ".$verse" else ""
+        return "${book.abbr}.$chap" + if (verse != null) ".$verse" else ""
     }
 
     override fun equals(other: Any?): Boolean {
