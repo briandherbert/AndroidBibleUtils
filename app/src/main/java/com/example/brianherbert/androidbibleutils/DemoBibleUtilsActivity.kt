@@ -94,6 +94,8 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         }
 
         mImg = findViewById(R.id.img_verse)
+        mImg.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+
         mImg.setOnClickListener { mImg.visibility = View.GONE }
 
         mPassagePlayer = PassagePlayer(this, this)
