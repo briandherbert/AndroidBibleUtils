@@ -1,6 +1,7 @@
 package com.example.brianherbert.androidbibleutils
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -88,7 +89,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mBtnBmp = findViewById(R.id.btn_image)
         mBtnBmp.setOnClickListener {
             if (mBibleRef?.verse != null) {
-                mVerseBmpFetcher.getBitmap(mBibleRef!!)
+                mVerseBmpFetcher.getBitmap(mBibleRef!!, Color.RED)
             }
         }
 

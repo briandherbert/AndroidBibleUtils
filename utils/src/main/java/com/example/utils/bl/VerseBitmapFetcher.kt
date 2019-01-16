@@ -2,6 +2,8 @@ package com.example.utils.bl
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.support.annotation.ColorInt
 import android.util.Log
 import android.widget.ImageView
 import com.android.volley.Response
@@ -28,8 +30,12 @@ class VerseBitmapFetcher(
         fun onVerseBitmapLoaded(bmp: Bitmap?)
     }
 
+    /**
+     * Get artistically styled text of a verse on a transparent bg
+     */
     fun getBitmap(
-        ref: BibleRef
+        ref: BibleRef,
+        @ColorInt textColor: Int = Color.WHITE
     ) {
         Log.v(TAG, "Getting image for $ref")
         if (ref.verse == null) {
@@ -42,7 +48,7 @@ class VerseBitmapFetcher(
             path,
             Response.Listener<Bitmap> {
                 Log.v(TAG, "Got image $ref")
-                listener.onVerseBitmapLoaded(it)
+                listener.onVerseBitmapLoaded(getVerseTextImage(it, textColor))
             },
             0,
             0,
@@ -55,5 +61,34 @@ class VerseBitmapFetcher(
 
         request.setShouldCache(false)
         Volley.newRequestQueue(context).add(request)
+    }
+
+    fun getVerseTextImage(
+        bitmap: Bitmap?,
+        colorNew: Int
+    ): Bitmap? {
+        val lowLimit = 0
+        val hiLimit = 50
+        if (bitmap != null) {
+            val picw = bitmap.width
+            val pich = bitmap.height
+            val pix = IntArray(picw * pich)
+            bitmap.getPixels(pix, 0, picw, 0, 0, picw, pich)
+            for (y in 0 until pich) {
+                for (x in 0 until picw) {
+                    val index = y * picw + x
+                    if (Color.red(pix[index]) >= lowLimit && Color.red(pix[index]) <= hiLimit &&
+                        Color.green(pix[index]) >= lowLimit && Color.green(pix[index]) <= hiLimit &&
+                        Color.blue(pix[index]) >= lowLimit && Color.blue(pix[index]) <= hiLimit
+                    ) {
+                        pix[index] = Color.TRANSPARENT
+                    } else {
+                        pix[index] = colorNew
+                    }
+                }
+            }
+            return Bitmap.createBitmap(pix, picw, pich, Bitmap.Config.ARGB_8888)
+        }
+        return null
     }
 }
