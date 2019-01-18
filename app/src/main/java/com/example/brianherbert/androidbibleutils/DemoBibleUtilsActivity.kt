@@ -9,7 +9,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.example.brianherbert.biblenavwatch.data.BOOK
 import com.example.brianherbert.biblenavwatch.data.BibleRef
+import com.example.brianherbert.biblenavwatch.data.BibleVersion
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
 import com.example.utils.bl.BibleFetcher
 import com.example.utils.bl.PassagePlayer
@@ -34,7 +37,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
     lateinit var mBtnBmp: Button
     lateinit var mImg: ImageView
 
-    lateinit var bibleFetcher: BibleFetcher
+    lateinit var mBibleFetcher: BibleFetcher
     lateinit var mVerseBmpFetcher: VerseBitmapFetcher
 
     var mBibleRef: BibleRef? = null
@@ -52,7 +55,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
         mLblVerse = findViewById(R.id.lbl_verse)
 
-        bibleFetcher = YVFetcher(this, this)
+        mBibleFetcher = YVFetcher(this, this)
         mVerseBmpFetcher = VerseBitmapFetcher(this, this)
 
         mBtnNext = findViewById(R.id.btn_next)
@@ -99,13 +102,15 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mImg.setOnClickListener { mImg.visibility = View.GONE }
 
         mPassagePlayer = PassagePlayer(this, this)
+
+        mBibleFetcher.getPassage("GEN.1.1", BibleVersion.ESV)
     }
 
     override fun onRefSelected(ref: BibleRef) {
         mBtnAudio.isEnabled = false
         mBibleRef = ref
         mPassagePlayer!!.stop()
-        bibleFetcher.getPassage(ref)
+        mBibleFetcher.getPassage(ref)
     }
 
     override fun onNavBackPressed() {
@@ -114,6 +119,13 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
     override fun onFetched(response: BiblePassage?) {
         Log.v(TAG, "got verse " + response?.toString())
+
+        if (response == null) {
+            Toast.makeText(this, "No verse, got internet?", Toast.LENGTH_LONG).show()
+            mLblVerse.text = "No verse, got internet?"
+            return
+        }
+
         mLblVerse.text = (response?.getHumanRef() + "\n" + response?.getVerseText())
         mBibleNav.reset()
 
