@@ -1,5 +1,6 @@
 package com.example.brianherbert.androidbibleutils
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
@@ -14,10 +15,7 @@ import com.example.brianherbert.biblenavwatch.data.BOOK
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.data.BibleVersion
 import com.example.brianherbert.biblenavwatch.ui.BibleNavSmall
-import com.example.utils.bl.BibleFetcher
-import com.example.utils.bl.PassagePlayer
-import com.example.utils.bl.VerseBitmapFetcher
-import com.example.utils.bl.YVFetcher
+import com.example.utils.bl.*
 import com.example.utils.data.BibleData
 import com.example.utils.data.BiblePassage
 
@@ -104,6 +102,23 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
         mPassagePlayer = PassagePlayer(this, this)
 
         mBibleFetcher.getPassage("GEN.1.1", BibleVersion.ESV)
+
+        mLblVerse.setOnClickListener { if (mBibleRef != null) YVAppTools.goToApp(this, mBibleRef!!) }
+
+
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    YVAppTools.parseYVShareIntent(intent)
+                }
+            }
+        }
+    }
+
+    private fun handleSendText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+            Log.v(TAG, "got text $it")
+        }
     }
 
     override fun onRefSelected(ref: BibleRef) {

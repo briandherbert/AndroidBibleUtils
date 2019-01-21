@@ -86,7 +86,7 @@ public enum class BOOK {
     companion object {
         fun fromAbbr(abbr: String): BOOK {
             for (book in BOOK.values()) {
-                if (book.abbr == abbr) {
+                if (book.abbr.equals(abbr, true)) {
                     return book
                 }
             }

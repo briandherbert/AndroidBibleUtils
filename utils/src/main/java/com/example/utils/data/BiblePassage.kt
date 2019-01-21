@@ -17,4 +17,10 @@ class BiblePassage(val ref: BibleRef, val content: String) {
     fun getUsfm(): String {
         return ref.usfm()
     }
+
+    override fun toString(): String {
+        return "BiblePassage(ref=$ref, content='$content')"
+    }
+
+
 }
