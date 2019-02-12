@@ -24,14 +24,15 @@ class MultiVerseFetcher : BibleFetcher.BibleFetcherListener {
 
     var mVerseQ = LinkedList<BibleRef>()
 
-
     constructor(fetcher: BibleFetcher, ref: BibleRef) {
         var endVerse = ref.verseRangeEnd
-        if (ref.verse == null || endVerse == null) {
-            throw IllegalArgumentException("Must have an end verse!")
+        if (ref.verse == null) {
+            throw IllegalArgumentException("Must have a verse!")
         }
 
-        if (ref.verse == null || ref.verse!! > endVerse) {
+        if (endVerse == null) endVerse = ref.verse
+
+        if (ref.verse!! > endVerse!!) {
             throw IllegalArgumentException ("Bad verse range ${ref.verse} - $endVerse")
         }
 

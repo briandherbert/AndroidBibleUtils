@@ -3,6 +3,7 @@ package com.example.utils.data
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.utils.data.yv.YVPassageResponse
 
+/** A ref + the contents */
 class BiblePassage(val ref: BibleRef, val content: String) {
     constructor(yvData: YVPassageResponse.YVVerseData) : this(BibleRef(yvData.reference), yvData.content)
 

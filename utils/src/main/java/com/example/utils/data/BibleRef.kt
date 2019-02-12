@@ -67,7 +67,9 @@ class BibleRef constructor(
     }
 
     override fun toString(): String {
-        return "Version ${version.display} book ${book.display} chap $chap verse $verse"
+        var str = "Version ${version.display} book ${book.display} chap $chap verse $verse"
+        if (verseRangeEnd != null) str = str + "-$verseRangeEnd"
+        return str
     }
 
     public fun addVerseRange(endVerse : Int) {

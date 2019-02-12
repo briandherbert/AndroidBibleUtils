@@ -113,6 +113,17 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
                 }
             }
         }
+
+        // Get the current verse of the day
+        YVVotdFetcher(
+            this,
+            object : YVVotdFetcher.VotdListener {
+                override fun onGotVotd(passage: BiblePassage?) {
+                    mLblVerse.text = passage?.getHumanRef() + "\n" + passage?.content
+                }
+            },
+            88
+        ).getVotd()
     }
 
     private fun handleSendText(intent: Intent) {
