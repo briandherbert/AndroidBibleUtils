@@ -19,7 +19,6 @@ import com.example.utils.bl.*
 import com.example.utils.data.BibleData
 import com.example.utils.data.BiblePassage
 
-
 // TODO: Audio button states
 class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListener, BibleFetcher.BibleFetcherListener,
     PassagePlayer.PassagePlayerListener, VerseBitmapFetcher.VerseBitmapListener {
@@ -105,7 +104,6 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
         mLblVerse.setOnClickListener { if (mBibleRef != null) YVAppTools.goToApp(this, mBibleRef!!) }
 
-
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
@@ -114,6 +112,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
             }
         }
 
+        Log.v("blarg", "is yv installed? ${YVAppTools.isYVInstalled(packageManager)}")
         // Get the current verse of the day
         YVVotdFetcher(
             this,

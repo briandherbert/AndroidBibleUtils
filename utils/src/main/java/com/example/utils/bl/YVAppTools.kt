@@ -8,6 +8,10 @@ import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.data.BibleVersion
 import com.example.utils.data.BiblePassage
 import java.lang.Exception
+import android.content.pm.PackageManager
+import android.content.pm.PackageInfo
+
+
 
 /**
  * Tools for interacting (informally) with the YouVersion Bible app
@@ -15,6 +19,8 @@ import java.lang.Exception
 class YVAppTools {
     companion object {
         val TAG = "YVAppTools"
+
+        val YV_PACKAGE_NAME = "com.sirma.mobile.bible.android"
 
         fun getAppLink(ref: BibleRef): String {
             var url = "https://bible.com/bible/59/${ref.usfm()}.${ref.version.display}"
@@ -35,7 +41,6 @@ class YVAppTools {
                     var str = it
                     var refStr = str.substringAfterLast('/').substringBeforeLast('.').trim()
                     var version = str.substringAfterLast('.').trim()
-
                     var content = str.substringBefore('\n').trim()
                     passage = BiblePassage(BibleRef(BibleVersion.valueOf(version), refStr), content)
                 }
@@ -44,6 +49,16 @@ class YVAppTools {
             }
 
             return passage
+        }
+
+        fun isYVInstalled(pm : PackageManager): Boolean {
+            try {
+                val info = pm.getPackageInfo(YV_PACKAGE_NAME, PackageManager.GET_META_DATA)
+            } catch (e: PackageManager.NameNotFoundException) {
+                return false
+            }
+
+            return true
         }
     }
 }
