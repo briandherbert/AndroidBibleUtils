@@ -17,6 +17,7 @@ import java.nio.charset.Charset
 import java.util.*
 
 /**
+ * @see com.example.utils.bl.YVFetcher#getVotd(day : Int)
  * Get verse of the day
  * @param day - Day of the year STARTING AT 1
  */

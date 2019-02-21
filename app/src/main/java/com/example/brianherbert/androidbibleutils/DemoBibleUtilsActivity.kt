@@ -34,7 +34,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
     lateinit var mBtnBmp: Button
     lateinit var mImg: ImageView
 
-    lateinit var mBibleFetcher: BibleFetcher
+    lateinit var mBibleFetcher: YVFetcher
     lateinit var mVerseBmpFetcher: VerseBitmapFetcher
 
     var mBibleRef: BibleRef? = null
@@ -100,7 +100,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
         mPassagePlayer = PassagePlayer(this, this)
 
-        mBibleFetcher.getPassage("GEN.1.1", BibleVersion.ESV)
+        mBibleFetcher.getVotd()
 
         mLblVerse.setOnClickListener { if (mBibleRef != null) YVAppTools.goToApp(this, mBibleRef!!) }
 
@@ -112,17 +112,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
             }
         }
 
-        Log.v("blarg", "is yv installed? ${YVAppTools.isYVInstalled(packageManager)}")
-        // Get the current verse of the day
-        YVVotdFetcher(
-            this,
-            object : YVVotdFetcher.VotdListener {
-                override fun onGotVotd(passage: BiblePassage?) {
-                    mLblVerse.text = passage?.getHumanRef() + "\n" + passage?.content
-                }
-            },
-            88
-        ).getVotd()
+        Log.v(TAG, "is yv installed? ${YVAppTools.isYVInstalled(packageManager)}")
     }
 
     private fun handleSendText(intent: Intent) {

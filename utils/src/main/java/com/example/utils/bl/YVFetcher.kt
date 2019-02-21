@@ -11,7 +11,9 @@ import com.example.utils.data.yv.YVPassageResponseWrapper
 import com.google.gson.Gson
 import java.nio.charset.Charset
 
-class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher(context, listener) {
+class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher(context, listener),
+    YVVotdFetcher.VotdListener {
+
     companion object {
         internal val TAG = YVFetcher::class.java.simpleName
     }
@@ -56,5 +58,16 @@ class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher
         }
         getRequest.setShouldCache(false)
         queue.add(getRequest)
+    }
+
+    /**
+     * Get the Verse of the Day based on the day of the year, starting at 1
+     */
+    fun getVotd(day : Int = -1) {
+        YVVotdFetcher(context, this, day).getVotd()
+    }
+
+    override fun onGotVotd(passage: BiblePassage?) {
+        listener.onFetched(passage)
     }
 }
