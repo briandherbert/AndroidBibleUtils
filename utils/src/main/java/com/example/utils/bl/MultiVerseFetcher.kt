@@ -45,6 +45,7 @@ class MultiVerseFetcher : BibleFetcher.BibleFetcherListener {
 
         for (v in mRef.verse!! .. endVerse) {
             var r = BibleRef(ref)
+            r.verseRangeEnd = null
             r.verse = v
             mVerseQ.add(r)
         }

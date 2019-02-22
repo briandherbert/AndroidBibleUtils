@@ -61,16 +61,5 @@ class YVAppTools {
             return true
         }
 
-        fun refFromBibleComUrl(version: BibleVersion, url : String) : BibleRef? {
-            if (!url.contains("bible.com", false)) return null
-            var start = url.lastIndexOf('/')
-            var end = url.length - 1
-            while (!TextUtils.isDigitsOnly(url[end].toString()) && end > start) {
-                end--
-            }
-
-            var refStr = url.subSequence(start, end)
-            return BibleRef(version, refStr.toString())
-        }
     }
 }

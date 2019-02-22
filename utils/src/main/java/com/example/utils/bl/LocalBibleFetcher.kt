@@ -14,6 +14,10 @@ class LocalBibleFetcher(context: Context, listener: BibleFetcherListener) : Bibl
 
     var mVerseMap: HashMap<Int, String> = HashMap()
 
+    /**
+     * TODO: Document verse format
+     * TODO: Support verse range
+     */
     override fun getPassage(ref: BibleRef) {
         var isChap = ref.verse == null
 

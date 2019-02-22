@@ -26,7 +26,11 @@ class YVFetcher(context: Context, listener: BibleFetcherListener) : BibleFetcher
             refStr += ".${ref.verse}"
         }
 
-        getVerse(ref.version.id, refStr, isChapter)
+        if (ref.verseRangeEnd != null) {
+            getPassages(ref)
+        } else {
+            getVerse(ref.version.id, refStr, isChapter)
+        }
     }
 
     private fun getVerse(version: Int, ref: String, isChapter: Boolean = false) {
