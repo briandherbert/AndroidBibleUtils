@@ -46,7 +46,7 @@ class YVVotdFetcher(val context: Context, val listener: VotdListener, var day: I
 
     private fun fetchVotd() {
         val queue = Volley.newRequestQueue(context)
-        val url = "http://bible.youversionapi.com/3.1/verse_of_the_day.json"
+        val url = "https://bible.youversionapi.com/3.1/verse_of_the_day.json"
         val getRequest = object : YVStringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->
