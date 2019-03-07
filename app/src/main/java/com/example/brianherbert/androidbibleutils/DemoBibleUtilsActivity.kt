@@ -100,7 +100,7 @@ class DemoBibleUtilsActivity : AppCompatActivity(), BibleNavSmall.BibleNavListen
 
         mPassagePlayer = PassagePlayer(this, this)
 
-        mBibleFetcher.getVotd()
+        mBibleFetcher.search("light dark")
 
         mLblVerse.setOnClickListener { if (mBibleRef != null) YVAppTools.goToApp(this, mBibleRef!!) }
 

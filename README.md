@@ -6,6 +6,7 @@ General tools for integrating and navigating the Bible on Android, leveraging [Y
 * Get Lens-like verse text art via `VerseBitmapFetcher` (thanks, Scott!)
 * Link out to YV's Bible app and recieve share intents as references via `YVAppTools`
 * Get the YV Verse of the Day via `YVVotdFetcher`
+* Search with YVFetcher.search()
 
 Demo app showing `BibleNavSmall` UI, `YVFetcher` grabbing verses, and `VerseBitmapFetcher` for image:
 <center><img src="screenshots/bibleUtilsDemo.gif" alt="drawing" width="200"/></center>

@@ -8,10 +8,8 @@ import com.android.volley.toolbox.Volley
 import com.example.brianherbert.biblenavwatch.data.BibleRef
 import com.example.brianherbert.biblenavwatch.data.BibleVersion
 import com.example.utils.data.BiblePassage
-import com.example.utils.data.yv.YVAudioResponseWrapper
-import com.example.utils.data.yv.YVVotdResponse
 import com.example.utils.data.yv.YVVotdResponseWrapper
-import com.google.gson.Gson
+import com.example.utils.network.YVStringRequest
 import com.google.gson.GsonBuilder
 import java.nio.charset.Charset
 import java.util.*
