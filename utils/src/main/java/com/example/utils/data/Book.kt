@@ -9,7 +9,7 @@ public enum class BOOK {
     ONE_CORINTHIANS("1 Corinthians", "1CO"),
     TWO_CORINTHIANS("2 Corinthians", "2CO"),
     DANIEL("Daniel", "DAN"),
-    DEUTERONOMY("Deuteronomy"),
+    DEUTERONOMY("Deuteronomy", "DEU"),
     ECCLESIASTES("Ecclesiastes", "ECC"),
     EPHESIANS("Ephesians", "EPH"),
     ESTHER("Esther", "EST"),
